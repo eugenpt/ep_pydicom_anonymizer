@@ -37,7 +37,7 @@ jobs:
           $ver = "${{ steps.version.outputs.VERSION }}"
           $exe = "DICOM_Anonymizer_v$ver.exe"
           Write-Host "Building $exe..."
-          pyinstaller --onefile --noconsole `
+          pyinstaller --onefile --console `
             --add-data "anonymizer.py;." `
             --name "$exe" `
             batch.py
