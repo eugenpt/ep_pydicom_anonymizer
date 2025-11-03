@@ -1,0 +1,66 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write  # Required for creating releases
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install pyinstaller
+
+      - name: Get version from tag
+        id: version
+        run: |
+          $tag = "${{ github.ref }}"
+          $ver = $tag -replace '^refs/tags/v', ''
+          echo "VERSION=$ver" >> $env:GITHUB_OUTPUT
+          echo "Building version: $ver"
+
+      - name: Build executable
+        run: |
+          $ver = "${{ steps.version.outputs.VERSION }}"
+          $exe = "DICOM_Anonymizer_v$ver.exe"
+          Write-Host "Building $exe..."
+          pyinstaller --onefile --noconsole `
+            --add-data "anonymizer.py;." `
+            --name "$exe" `
+            batch.py
+          Write-Host "Copying config.txt and README.txt to dist/"
+          Copy-Item config.txt dist\
+          Copy-Item README.txt dist\README.txt -ErrorAction SilentlyContinue
+
+      - name: Create release ZIP
+        run: |
+          $ver = "${{ steps.version.outputs.VERSION }}"
+          $exe = "dist\DICOM_Anonymizer_v$ver.exe"
+          $zip = "dist\DICOM_Anonymizer_v$ver.zip"
+          Write-Host "Creating $zip..."
+          Compress-Archive -Path $exe, "dist\config.txt", "dist\README.txt" -DestinationPath $zip -Force
+          Write-Host "ZIP created: $zip"
+
+      - name: Upload release assets
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/DICOM_Anonymizer_v${{ steps.version.outputs.VERSION }}.exe
+            dist/config.txt
+            dist/README.txt
+            dist/DICOM_Anonymizer_v${{ steps.version.outputs.VERSION }}.zip
+          draft: false
+          prerelease: false

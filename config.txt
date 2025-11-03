@@ -1,0 +1,87 @@
+; =====================================================
+; DICOM Anonymizer – Full PHI Removal (Standard Profile)
+; Use this file with DICOM_Anonymizer.exe
+; Clears: Patient, Study, Series, Institution, Dates, etc.
+; =====================================================
+
+[Fields]
+
+; --- Patient Identification ---
+PatientName             = ""
+PatientID               = ""
+PatientBirthDate        = ""
+PatientSex              = ""
+PatientAge              = ""
+PatientSize             = ""
+PatientWeight           = ""
+PatientAddress          = ""
+PatientTelephoneNumbers = ""
+OtherPatientIDs         = ""
+OtherPatientNames       = ""
+EthnicGroup             = ""
+PatientComments         = ""
+
+; --- Institution / Physician ---
+InstitutionName         = ""
+InstitutionAddress      = ""
+ReferringPhysicianName  = ""
+ReferringPhysicianAddress = ""
+ReferringPhysicianTelephoneNumbers = ""
+PerformingPhysicianName = ""
+PerformingPhysiciansIdentificationSequence = ""
+OperatorsName           = ""
+NameOfPhysiciansReadingStudy = ""
+
+; --- Study / Series Identifiers ---
+StudyID                 = ""
+AccessionNumber         = ""
+StudyDescription        = ""
+SeriesDescription       = ""
+
+; --- Dates & Times (all cleared) ---
+StudyDate               = ""
+StudyTime               = ""
+SeriesDate              = ""
+SeriesTime              = ""
+AcquisitionDate         = ""
+AcquisitionTime         = ""
+ContentDate             = ""
+ContentTime             = ""
+InstanceCreationDate    = ""
+InstanceCreationTime    = ""
+StructureSetDate        = ""
+StructureSetTime        = ""
+TreatmentDate           = ""
+TreatmentTime           = ""
+
+; --- Device / Operator ---
+StationName             = ""
+DeviceSerialNumber      = ""
+Manufacturer            = ""
+ManufacturerModelName   = ""
+SoftwareVersions        = ""
+
+; --- UIDs – DO NOT CLEAR HERE (handled by script) ---
+; StudyInstanceUID, SeriesInstanceUID, SOPInstanceUID
+; → These are replaced deterministically in code
+
+; --- Optional: Clear free text ---
+InterpretationTranscriber = ""
+InterpretationAuthor    = ""
+ReportText              = ""
+
+; --- Hex tags (alternative format) ---
+; PatientName
+0010,0010 = "Noname"
+; PatientID
+0010,0020 = ""
+; PatientBirthDate
+0010,0030 = ""
+; PatientSex
+0010,0040 = ""
+; AccessionNumber
+0008,0050 = ""
+; StudyDescription
+0008,1030 = ""
+; SeriesDescription
+0008,103E = ""
