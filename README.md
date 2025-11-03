@@ -2,7 +2,7 @@
 
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
-[![GitHub Releases](https://img.shields.io/github/v/release/yourusername/ep_pydicom_anonymizer)](https://github.com/yourusername/ep_pydicom_anonymizer/releases)
+[![GitHub Releases](https://img.shields.io/github/v/release/eugenpt/ep_pydicom_anonymizer)](https://github.com/eugenpt/ep_pydicom_anonymizer/releases)
 
 A fast, parallel DICOM anonymizer tool with GUI and CLI support. Removes PHI (Patient Health Information) like names, IDs, dates, and UIDs while preserving file structure.
 
